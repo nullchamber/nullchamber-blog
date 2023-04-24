@@ -1,0 +1,62 @@
+{% extends "blog/base.html" %}
+{% load helper_tags %}
+{% load bulma_tags %}
+{% block title %}Search{% endblock %}
+{% block content %}
+{% if query %}
+<div class="tile is-child box brand-accent-bg">
+	<h1 class="title">Posts containing "{{ query }}"</h1>
+	<p class="subtitle has-text-weight-light has-text-black">
+		{% with results.count as total_results %}
+		Found {{ total_results }} result{{ total_results|pluralize }}
+		{% endwith %}
+	</p>
+	{% for post in results %}
+	<article class="media box brand-dark-bg">
+		<div class="media-content">
+			<div class="content has-text-light">
+				<h2 class="title is-4 brand-white">{{ post.title }}</h2>
+				<p class="subtitle is-7 has-text-weight-light brnad-white">Published {{ post.publish }} by {{ post.author }}</p>
+				<p class="has-text-light">{{ post.body|truncatewords:30|markdown }}</p>
+			</div>
+			<nav class="level">
+				<div class="level-left">
+					<a href="{{ post.get_absolute_url }}" class="button brand-success-bg">Read more</a>
+				</div>
+			</nav>
+		</div>
+	</article>
+	{% empty %}
+	<div class="is-notification brand-accent-bg">
+		<p class="has-text-weight-semibold brand-dark">There were no results for your query.</p>
+	</div>
+	{% endfor %}
+	<div class="columns is-centered">
+		<div class="column is-one-third">
+			<a class="button is-block is-fullwidth is-medium share-button" href="{% url 'blog:post_search' %}">Try another search</a>
+		</div>
+	</div>
+</div>
+{% else %}
+<div class="tile is-child box brand-accent-bg">
+	<h1 class="title">Search for posts</h1>
+	<hr>
+	<div class="columns is-centered">
+		<div class="column is-two-fifths">
+			<form class="box brand-dark-bg" method="get">
+				<div class="field has-addons">
+					<div class="control">
+						{% with form.query as query_field %}
+						{{ query_field|addclass:"input brand-input-bg brand-dark" }}
+						{% endwith %}
+					</div>
+					<div class="control">
+						<button class="button brand-outline" type="submit">Search</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{% endif %}
+{% endblock %}		

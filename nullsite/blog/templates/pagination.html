@@ -1,0 +1,13 @@
+<nav class="pagination is-centered" role="navigation" aria-label="pagination">
+    <a class="button pagination-previous" {% if page.has_previous %}href="?page={{ page.previous_page_number }}"{% else %}disabled{% endif %}>
+        Previous
+    </a>
+    <a class="button pagination-next" {% if page.has_next %}href="?page={{ page.next_page_number }}"{% else %}disabled{% endif %}>
+        Next
+    </a>
+    <ul class="pagination-list">
+        <li>
+            <a class="pagination-link button brand-success-bg" href="#" aria-label="Page 1" aria-current="page">{{ page.number }}</a>
+        </li>
+    </ul>
+</nav>

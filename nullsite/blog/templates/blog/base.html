@@ -1,0 +1,136 @@
+{% load static %}
+{% load helper_tags %}
+{% load bulma_tags %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/theme.css' %}">
+    </head>
+    <body class="brand-bg">
+        <!-- nav -->
+        <nav class="navbar brand-dark-bg" role="navigation" aria-label="main-navigation">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="/">
+                    <img src="{% static 'imgs/logo.png' %}" width="112" height="28">
+                </a>
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasic">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+            <div id="navbarBasic" class="navbar-menu has-text-light">
+                <div class="navbar-start">
+                    <a class="navbar-item brand- has-text-light" href="/">Home</a>
+                    <a class="navbar-item  brand-white has-text-light" href="{% url 'blog:post_list' %}">Blog</a>
+                    <a class="navbar-item  brand-white has-text-light" href="#">Contact</a>
+                </div>
+                <div class="navbar-end">
+                    <div class="buttons">
+                        <a class="button brand-outline" href="#">Author Portal</a>
+                        <a class="button brand-success-bg" href="#">Write for Us!</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <section class="section">
+            <div class="columns is-centered">
+                <div class="column">
+                    <div class="tile is-ancestor">
+                        <div class="tile is-parent is-vertical">
+                            <div class="tile is-child card brand-accent-bg">
+                                {% block other_posts %}
+                                <div class="card-header">
+                                    <p class="card-header-title is-size-5 brand-dark has-text-centered">Latest Posts</p>
+                                </div>
+                                <div class="card-content brand-dark-bg">
+                                    {% show_latest_posts %}
+                                </div>
+                                {% endblock %}
+                            </div>
+                            <div class="tile is-child card brand-accent-bg">
+                                <div class="card-header">
+                                    <p class="card-header-title is-size-5 brand-dark has-text-centered">
+                                        Most Commented
+                                    </p>
+                                </div>
+                                {% get_most_commented_posts as most_commented %}
+                                <div class="card-content brand-dark-bg">
+                                    <ul>
+                                        {% for post in most_commented %}
+                                        <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="tile is-child card brand-accent-bg">
+                                <div class="card-header">
+                                    <p class="card-header-title is-size-5 brand-dark has-text-centered">
+                                        Posts by Tag
+                                    </p>
+                                </div>
+                                <div class="card-content brand-dark-bg">
+                                    <div class="tags">
+                                        {% block tags %}
+
+                                        {% endblock %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tile is-child">
+                                <div class="card-content">
+                                    <a class="button is-medium is-fullwidth brand-dark-bg has-text-light has-text-centered" href="{% url 'blog:post_feed' %}">Subscribe to the RSS Feed</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-three-quarters">
+                    <div class="tile is-ancestor">
+                        <div class="tile is-parent is-vertical">
+                            {% block content %}
+                            {% with Tag.objects.all as tags %}
+                            {% for tag in tags %}
+                            <span class="tag brand-success-bg brand-dark"><a href="{% url 'blog:post_list_by_tag' tag.slug %}">{{ tag.name }}</a></span>
+                            {% endfor %}
+                            {% endwith %}
+                            {% endblock %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <footer class="footer brand-dark-bg">
+            <div class="content has-text-centered default-light-text">
+                <p>
+                    <strong>Follow us on social media!</strong>
+                </p>
+                <div class="buttons is-centered">
+                    <a class="button is-facebook" href="#">
+                        <span class="icon">
+                            <i class="fab fa-facebook"></i>
+                        </span>
+                    </a>
+                    <a class="button is-twitter" href="#">
+                        <span class="icon">
+                            <i class="fab fa-twitter"></i>
+                        </span>
+                    </a>
+                    <a class="button is-youtube" href="#">
+                        <span class="icon">
+                            <i class="fab fa-youtube"></i>
+                        </span>
+                    </a>
+                </div>
+                <p>
+                    <strong>nullchamber.wtf</strong> by Dylan Garrett
+                </p>
+            </div>
+        </footer>
+    </body>
+    </html>

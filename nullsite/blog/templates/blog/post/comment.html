@@ -1,0 +1,25 @@
+{% extends "blog/base.html" %}
+{% load helper_tags %}
+{% load bulma_tags %}
+{% block title %}Add a comment{% endblock %}
+{% block content %}
+{% if comment %}
+<div class="tile is-parent is-vertical box brand-accent-bg">
+    <div class="tile is-child">
+        <h1 class="title is-size-3">Your comment has been added</h1>
+        <p class="subtitle has-text-weight-light has-text-black">You can return to the original post below:</p>
+    </div>
+    <div class="tile is-child">
+        <div class="columns is-centered">
+            <div class="column is-one-third">
+                <a class="button is-block is-fullwidth is-large has-text-centered brand-success-bg" href="{{ post.get_absolute_url }}">Return to previous</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="tile is-parent is-vertical box brand-accent-bg">
+    {% include "blog/post/includes/comment_form.html" %}
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,39 @@
+{% load helper_tags %}
+{% load bulma_tags %}
+<div class="tile is-child box brand-success-bg is-8">
+    <h1 class="title is-size-4">
+        Add a new comment
+    </h1>
+    <div class="columns">
+        <div class="column">
+            <form class="box brand-dark-bg" method="post" action="{% url 'blog:post_comment' post.id %}">
+                <div class="control">
+                    {% csrf_token %}
+                    {% for field in form %}
+                    {% if not field|is_textarea %}
+                    <div class="field">
+                        <div class="control">
+                            {{ field|format_label:"label has-text-light" }} {{ field|addclass:"input brand-input-bg brand-dark" }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% with form.body as comment_field %}
+                    <div class="field">
+                        <div class="control">
+                            {{ comment_field|format_label:"label has-text-light" }}
+                            {{ comment_field|add_widget_css:"textarea brand-input-bg brand-dark" }}
+                        </div>
+                    </div>
+                    {% endwith %}
+                    <div class="field">
+                        <div class="control">
+                            <button class="button is-fullwidth brand-outline" type="submit">Post comment</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

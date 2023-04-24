@@ -1,0 +1,76 @@
+{% extends "blog/base.html" %}
+{% load helper_tags %}
+{% load bulma_tags %}
+{% block title %}Share a post{% endblock %}
+{% block content %}
+{% if sent %}
+<div class="tile is-parent is-vertical box brand-accent-bg">
+    <div class="tile is-child">
+        <h1 class="title">
+            Share post successfully!
+        </h1>
+        <p class="subtitle has-text-weight-light has-text-black">Thanks for supporting us!</p>
+        <hr>
+    </div>
+    <div class="tile is-parent">
+        <div class="tile is-child is-notification brand-success-bg">
+            <p class="is-size-4">Thank you for the support!</p>
+        </div>
+        <div class="tile is-child box">
+            <div class="buttons is-grouped">
+                <a class="button is-block is-fullwidth brand-accent-bg">
+                    All posts
+                </a>
+                <a class="button is-block is-fullwidth share-button">
+                    Back to post
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="tile is-parent is-vertical">
+    <div class="tile is-child box brand-accent-bg">
+        <h1 class="title">
+            Share "{{ post.title }}" to a friend
+        </h1>
+
+        <form class="box brand-dark-bg" method="post">
+            <div class="columns">
+                <div class="column is-half">
+                    <div class="control">
+                        {% csrf_token %}
+                        {% for field in form %}
+                        {% if not field|is_textarea %}
+                        <div class="field">
+                            <div class="control">
+                                {{ field|format_label:"label brand-white" }}  {{ field|addclass:"input brand-input-bg brand-dark" }}
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                        <div class="field">
+                            <div class="control">
+                                <button class="button is-fullwidth is-block brand-success-bg" type="submit">Share post</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-half">
+                    <div class="control">
+                        {% with form.comments as comments_field %}
+                        <div class="field">
+                            <div class="control">
+                                {{ comments_field|format_label:"label brand-white" }}
+                                {{ comments_field|add_widget_css:"textarea brand-input-bg brand-dark" }}
+                            </div>
+                        </div>
+                        {% endwith %}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

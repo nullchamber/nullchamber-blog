@@ -1,0 +1,30 @@
+{% extends "blog/base.html" %}
+{% load helper_tags %}
+{% block title %}NullBlog{% endblock %}
+{% block content %}
+<div class="tile is-child box brand-accent-bg">
+    <h1 class="title">Nullchamber Blog</h1>
+    {% if tag %}
+    <h2 class="subtitle is-size-3 has-text-weight-light">Posts tagged with "{{ tag.name }}"</h2>
+    {% endif %}
+    {% for post in posts %}
+    <article class="media box brand-dark-bg">
+        <div class="media-content">
+            <div class="content has-text-light">
+                <h2 class="title is-4 brand-white">{{ post.title }}</h2>
+                <p class="subtitle is-7 has-text-weight-light brand-white">Published {{ post.publish }} by {{ post.author }}</p>
+                <p class="has-text-light">{{ post.body|truncatewords:30|markdown }}</p>
+            </div>
+            <nav class="level">
+                <div class="level-left">
+                    <a href="{{ post.get_absolute_url }}" class="button brand-success-bg">Read more</a>
+                </div>
+            </nav>
+        </div>
+    </article>
+    {% endfor %}
+    <div class="block">
+        {% include "pagination.html" with page=posts %}
+    </div>
+</div>
+{% endblock %}
