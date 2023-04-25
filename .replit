@@ -1,0 +1,15 @@
+run = "cowsay Configure me!"
+language = "python3"
+
+[languages.python3]
+patterns = "**/*.py"
+
+[languages.python3.languageServer]
+start = ["pyls"]
+
+
+[env]
+VIRTUAL_ENV = "$HOME/$REPL_SLUG/venv"
+PATH = "$VIRTUAL_ENV/bin"
+PYTHONPATH = "$VIRTUAL_ENV/lib/python3.9/site-packages"
+

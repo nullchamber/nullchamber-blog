@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-pypv2^7=%6(bm%wdx)aa=kg+5yaplolv3^=jld3bp4wxmxl^bx
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+STAGING = os.environ.get("STAGING") is not None
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
@@ -142,12 +142,19 @@ if not DEBUG:
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'glizzy',
-        'USER': 'glizzy',
-        'PASSWORD': "onefullsend"
+if STAGING:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'glizzy',
+            'USER': 'glizzy',
+            'PASSWORD': "onefullsend"
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3'
+        }
+    }
