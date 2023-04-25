@@ -1,6 +1,5 @@
 from .base import *
 import os 
-import secrets
 
 
 
@@ -8,12 +7,16 @@ DEBUG = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get("DATABASE_NAME"),
-        'USER': os.environ.get("DATABASE_USER"),
-        'PASSWORD': os.environ.get("DATABASE_PASSWORD")
+        'NAME': 'blog',
+        'USER': 'glizzy',
+        'PASSWORD': 'onefullsend'
     }
 }
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    '192.168.1.*'
+]
 ADMINS = [
     ("Dylan Garrett", "dreadnexus@protonmail.ch")
 ]
@@ -23,4 +26,3 @@ EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-SECRET_KEY = secrets.token_urlsafe()
