@@ -25,14 +25,14 @@
             </div>
             <div id="navbarBasic" class="navbar-menu has-text-light">
                 <div class="navbar-start">
-                    <a class="navbar-item brand- has-text-light" href="/">Home</a>
+                    <a class="navbar-item  has-text-light" href="{% url 'blog:post_list' %}">Home</a>
                     <a class="navbar-item  brand-white has-text-light" href="{% url 'blog:post_list' %}">Blog</a>
-                    <a class="navbar-item  brand-white has-text-light" href="#">Contact</a>
+                    <a class="navbar-item  brand-white has-text-light" id="contact-indev" href="#">Contact</a>
                 </div>
                 <div class="navbar-end">
                     <div class="buttons">
-                        <a class="button brand-outline" href="#">Author Portal</a>
-                        <a class="button brand-success-bg" href="#">Write for Us!</a>
+                        <a class="button brand-outline" id="portal-indev" href="#">Author Portal</a>
+                        <a class="button brand-success-bg" id="signup-indev" href="#">Write for Us!</a>
                     </div>
                 </div>
             </div>
@@ -132,5 +132,10 @@
                 </p>
             </div>
         </footer>
+        {% create_indev_modal "contact-indev" %}
+        {% create_indev_modal "portal-indev" %}
+        {% create_indev_modal "signup-indev" %}
+        {% block modal %}
+        {% endblock %}
     </body>
     </html>

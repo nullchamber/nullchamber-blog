@@ -56,3 +56,9 @@ def get_most_commented_posts(count=5):
 @register.filter(name='markdown')
 def markdown_format(text):
     return mark_safe(markdown.markdown(text))
+
+
+@register.inclusion_tag('blog/indev_modal.html')
+def create_indev_modal(element_id):
+    feature_name = element_id.split('-')[0].capitalize()
+    return {'element_id': element_id, 'feature': feature_name}

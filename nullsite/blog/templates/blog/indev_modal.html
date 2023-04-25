@@ -1,0 +1,29 @@
+
+<div class="modal" id="modal-{{ element_id }}">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">This feature is under construction</p>
+            <button class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+            <p>If you'd like, we can alert the admin/developers that a user wants to access this feature!</p>
+        </section>
+        <footer class="modal-card-foot">
+            <button class="button brand-success-bg">Sure!</button>
+            <button class="button brand-dark-bg">Nahhh</button>
+        </footer>
+    </div>
+</div>
+<script>
+    var modalButton{{ feature_name }} = document.getElementById({{ element_id }})
+    var modal{{ feature_name }} = document.getElementById("modal-{{ element_id }}");
+    var modalClose{{ feature_name }} = modal.querySelector('.delete');
+
+    modalButton{{ feature_name }}.addEventListener('click', function() {
+        modal{{ feature_name }}.classList.add('is-active');
+    });
+    modalClose{{ feature_name }}.addEventListener('click', function() {
+        modal{{ feature_name }}.classList.remove('is-active');
+    })
+</script>
