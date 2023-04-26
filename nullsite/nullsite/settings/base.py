@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import secrets
 from pathlib import Path
 import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,8 +20,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-pypv2^7=%6(bm%wdx)aa=kg+5yaplolv3^=jld3bp4wxmxl^bx'
-
+#SECRET_KEY = 'django-insecure-pypv2^7=%6(bm%wdx)aa=kg+5yaplolv3^=jld3bp4wxmxl^bx'
+SECRET_KEY = secrets.token_hex()
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 STAGING = os.environ.get("STAGING") is not None
@@ -132,29 +132,21 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-if not DEBUG:
-    EMAIL_HOST = 'smtp.gmail.com'
-    EMAIL_HOST_USER = 'garrettdylan0702@gmail.com'
-    EMAIL_HOST_PASSWORD = ''
-    EMAIL_PORT = 587
-    EMAIL_USE_TLS = True
 
-else:
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379',
+    }
+}
 
-if STAGING:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'glizzy',
-            'USER': 'glizzy',
-            'PASSWORD': "onefullsend"
-        }
-    }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3'
-        }
-    }
+CACHE_MIDDLEWARE_ALIAS = 'default'
+CACHE_MIDDLEWARE_SECONDS = 60 * 15
+CACHE_MIDDLEWARE_KEY_PREFIX = 'nullsite'
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
+STATIC_ROOT = BASE_DIR / 'static'
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'

@@ -1,0 +1,30 @@
+upstream uwsgi_app {
+	server unix:/code/nullsite/uwsgi_app.sock;
+}
+
+upstream daphne {
+	server unix:/code/nullsite/daphne.sock;
+}
+server {
+	listen				80;
+	server_name			www.nullchamber.xyz nullchamber.xyz;
+	return 301			https://$host$request_uri;
+}
+server {
+	listen				443 ssl;
+	ssl_certificate		/code/nullsite/ssl/nullsite.crt;
+	ssl_certificate_key /code/nullsite/ssl/nullsite.key;
+	server_name 		www.nullchamber.xyz nullchamber.xyz;
+	error_log			stderr warn;
+	access_log			/dev/stdout main;
+	location / {
+		include				/etc/nginx/uwsgi_params;
+		uwsgi_pass			uwsgi_app;
+	}
+	location /static/ {
+		alias 	/code/nullsite/static/;
+	}
+	location /media/ {
+		alias 	/code/nullsite/media/;
+	}
+}
